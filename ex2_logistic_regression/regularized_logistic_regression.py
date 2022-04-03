@@ -1,8 +1,76 @@
-from ex2_logistic_regression.logistic_regression import read_dataset, separate_dataset
+#from ex2_logistic_regression.logistic_regression import read_dataset, separate_dataset
 import numpy as np
 import matplotlib.pyplot as plt
 import scipy.optimize as opt
 from sklearn.metrics import classification_report
+
+def read_dataset(filename, type_tuple, separator=','):
+    """
+    从文件中读入数据，文件的数据存储应该是每组数据存在一行并用分隔符隔开
+    返回：ndarray
+    eg:
+        1.1,2.1,3.1
+        1.2,2.2,3.2
+    parameters:
+    ----------
+    filename : str
+            (包括路径的）文件名
+    type_tuple : tuple
+            每一行数据的类型
+    separator : str
+            分隔符，默认为','
+    """
+    f = open(filename, 'r')
+    lines = f.readlines()
+
+    data = []
+    if len(type_tuple) != len(lines[0]) and len(type_tuple) == 1:
+        for line in lines:
+            line = line[:-1]
+            line = line.split(sep=separator)
+            row = []
+            for col in line:
+                row.append(type_tuple[0](col))
+            data.append(row)
+
+    elif len(type_tuple) == len(lines[0].split(sep=separator)):
+        for line in lines:
+            line = line[:-1]
+            line = line.split(sep=separator)
+            row = []
+            for i in range(len(line)):
+                row.append(type_tuple[i](line[i]))
+            data.append(row)
+    else:
+        data = None
+    return np.array(data)
+
+
+def separate_dataset(data, col, boundary):
+    """
+    将数据按照某列进行二分类
+    parameters:
+    ----------
+    data : ndarray
+            一组数据存在一行
+    col : int
+            分类标准应用到的列号
+    boundary : double
+            分类边界
+    """
+    data0 = np.array(data)
+    data1 = np.array(data)
+    dc0 = 0
+    dc1 = 0
+    for i in range(data.shape[0]):
+        if data[i][col] < boundary:
+            data1 = np.delete(data1, i - dc1, axis=0)
+            dc1 += 1
+        else:
+            data0 = np.delete(data0, i - dc0, axis=0)
+            dc0 += 1
+    return data0, data1
+
 
 
 def sigmoid(z):
