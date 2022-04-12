@@ -136,6 +136,7 @@ for line in t:
 t.close
 
 len(movie_list) #得到了长度为1682的电影列表
+#print("movie_list = %d" % len(movie_list))
 
 #初始化我的评分
 my_ratings = np.zeros((1682, 1))
@@ -152,6 +153,7 @@ my_ratings[68] = 5
 my_ratings[182] = 4
 my_ratings[225] = 5
 my_ratings[354] = 5
+
 
 #查看评分以及对应的电影
 print('\n\nNew user ratings:\n')
