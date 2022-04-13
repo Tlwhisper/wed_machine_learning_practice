@@ -1,5 +1,4 @@
-# 前向神经网络
-
+# -*- coding: utf-8 -*-
 import numpy as np
 import matplotlib.pyplot as plt
 import scipy.io as scio #读取mat文件
